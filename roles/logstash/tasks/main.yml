@@ -1,16 +1,58 @@
 ---
 
-- name: Install Logstash with apt
-  apt:
+- name: install logstash
+  yum:
     name: logstash
-    update_cache: yes
+  tags: logstash 
 
-# Logstash configuration
-- include: config.yml
+- name: create the logstash conf
+  file:
+    path: /etc/logstash/conf.d/{{ beats_conf }}.conf
+    state: touch
+  tags: logstash
 
-- name: Start Logstash
-  service: 
-    name: logstash 
-    state: restarted
-    enabled: yes
+- name: write to the logstash conf according to the jinja template
+  template:
+    src: roles/logstash/templates/logstash.j2
+    dest: /etc/logstash/conf.d/{{ beats_conf }}.conf
+  tags: logstash
+
+- name: create the logstash syslog conf
+  file:
+    path: /etc/logstash/conf.d/{{ syslog_conf }}
+    state: touch
+  tags: logstash
+
+- name: write to the logstash syslog conf according to the jinja template
+  template:
+    src: roles/logstash/templates/syslog.j2
+    dest: /etc/logstash/conf.d/{{ syslog_conf }}.conf
+  tags: logstash
+
+- name: create the logstash elasticsearch conf
+  file:
+    path: /etc/logstash/conf.d/{{ elastic_conf }}
+    state: touch
+  tags: logstash
+
+- name: write to the logstash elastic conf according to the jinja template
+  template:
+    src: roles/logstash/templates/elastic.j2
+    dest: /etc/logstash/conf.d/{{ elastic_conf }}.conf
+  tags: logstash
+
+- name: check logstash configuration synthax
+  shell: "sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t
+"
+  register: logstash_check
   ignore_errors: true
+  tags: logstash
+
+- name: if there are no errors start and enable logstash
+  systemd:
+     name: nginx
+     state: started
+     enabled: yes
+  when: logstash_check|successful
+  tags: logstash
+
