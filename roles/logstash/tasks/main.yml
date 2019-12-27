@@ -53,6 +53,4 @@
      name: nginx
      state: started
      enabled: yes
-  when: logstash_check|successful
-  tags: logstash
 
