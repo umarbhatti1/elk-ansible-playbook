@@ -48,9 +48,3 @@
   ignore_errors: true
   tags: logstash
 
-- name: if there are no errors start and enable logstash
-  systemd:
-     name: nginx
-     state: started
-     enabled: yes
-
