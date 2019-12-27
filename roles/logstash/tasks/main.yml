@@ -1,33 +1,16 @@
 ---
-- name: HTTPS APT transport for Elasticsearch repository.
-  apt:
-    name: apt-transport-https
-    state: present
 
-- name: Add Elasticsearch apt key.
-  apt_key:
-    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-    state: present
-
-- name: Add Logstash repository.
-  apt_repository:
-    repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
-    state: present
-
-- name: Check if Logstash is already installed.
-  stat: path=/etc/init.d/logstash
-  register: logstash_installed
-
-- name: Update apt cache if repository just added.
-  apt: update_cache=yes
-  when: not logstash_installed.stat.exists
-
-- name: Install Logstash.
+- name: Install Logstash with apt
   apt:
     name: logstash
-    state: present
+    update_cache: yes
 
-- name: start Logstash.
-  service:
-   name: logstash
-   state: started
+# Logstash configuration
+- include: config.yml
+
+- name: Start Logstash
+  service: 
+    name: logstash 
+    state: restarted
+    enabled: yes
+  ignore_errors: true
