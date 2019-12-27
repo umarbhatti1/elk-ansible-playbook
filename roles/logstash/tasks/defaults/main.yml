@@ -1,0 +1,3 @@
+beats_conf: '02-beats-input'
+syslog_conf: '10-syslog-filter'
+elastic_conf: '30-elasticsearch-output'
