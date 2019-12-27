@@ -28,8 +28,6 @@
     state: present
 
 - name: Add Logstash user to adm group (Debian).
-  user:
-    name: logstash
-    group: logstash
-    groups: adm
-  notify: restart logstash
+  service:
+   name: logstash
+   state: started
