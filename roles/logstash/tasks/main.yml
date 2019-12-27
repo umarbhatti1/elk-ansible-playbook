@@ -11,7 +11,7 @@
 
 - name: Add Logstash repository.
   apt_repository:
-    repo: 'deb https://artifacts.elastic.co/packages/{{ logstash_version }}/apt stable main'
+    repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
     state: present
 
 - name: Check if Logstash is already installed.
