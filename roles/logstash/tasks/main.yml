@@ -27,7 +27,7 @@
     name: logstash
     state: present
 
-- name: Add Logstash user to adm group (Debian).
+- name: start Logstash.
   service:
    name: logstash
    state: started
