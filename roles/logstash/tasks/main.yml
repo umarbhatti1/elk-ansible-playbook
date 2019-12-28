@@ -42,7 +42,7 @@
   tags: logstash
 
 - name: check logstash configuration synthax
-  shell: "-u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t"
+  shell: "sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t"
   register: logstash_check
   ignore_errors: true
   tags: logstash
