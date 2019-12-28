@@ -10,11 +10,11 @@
    url: "https://packages.elastic.co/GPG-KEY-elasticsearch"
    state: present
 
-# Add the Elasticsearch apt repo. For versions 6 of the stack - use '6.x-prerelease':
+# Add the Elasticsearch apt repo.
 
 - name: Adding Elasticsearch repo
   apt_repository:
-   repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+   repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
    state: present
 
 # Installing Elasticsearch
